@@ -1,7 +1,7 @@
 ---
 template: page
 title: Contact me
-slug: Contact
+slug: contacts
 draft: true
 ---
 Email: i@zsms.me
