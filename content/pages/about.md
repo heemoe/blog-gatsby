@@ -1,7 +1,7 @@
 ---
 template: page
 title: About me
-slug: This is Hee
-draft: true
+slug: about
+draft: false
 ---
 This is Hee, This is my new blog host at netlify.
