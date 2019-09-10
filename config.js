@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = {
-  url: 'https://lumen.netlify.com',
+  url: 'https://zsms.netlify.com',
   pathPrefix: '/',
-  title: 'Blog by John Doe',
-  subtitle: 'Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu.',
-  copyright: '© All rights reserved.',
-  disqusShortname: '',
-  postsPerPage: 4,
-  googleAnalyticsId: 'UA-73379983-2',
+  title: 'Blog by Harvey Zhong',
+  subtitle: 'Web Developer,UI/UX Designer,love React,Vue.',
+  copyright: '© Harvey All rights reserved.',
+  disqusShortname: 'blog-by-harvey-zhong',
+  postsPerPage: 8,
+  googleAnalyticsId: '',
   useKatex: false,
   menu: [
     {
@@ -20,24 +20,24 @@ module.exports = {
       path: '/pages/about'
     },
     {
-      label: 'Contact me',
-      path: '/pages/contacts'
+      label: 'Archives',
+      path: '/pages/archives'
     }
   ],
   author: {
-    name: 'John Doe',
+    name: 'Harvey Zhong',
     photo: '/photo.jpg',
-    bio: 'Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu.',
+    bio: 'Web Developer,UI/UX Designer,love React,Vue.',
     contacts: {
-      email: '',
-      facebook: '#',
-      telegram: '#',
-      twitter: '#',
-      github: '#',
+      email: 'i@zsms.me',
+      facebook: '',
+      telegram: 'heeeeeeeeeeeeeeeeeeeeeeeee',
+      twitter: '',
+      github: 'heemoe',
       rss: '',
       vkontakte: '',
-      linkedin: '#',
-      instagram: '#',
+      linkedin: '',
+      instagram: '',
       line: '',
       gitlab: '',
       weibo: ''
