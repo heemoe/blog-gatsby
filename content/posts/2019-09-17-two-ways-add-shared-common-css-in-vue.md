@@ -1,6 +1,6 @@
 ---
 template: post
-title: Two ways add shared common css in vue
+title: Two ways to add shared common css in vue
 slug: /posts/two-ways-add-shared-common-css-in-vue
 draft: false
 date: 2019-09-17T01:30:14.281Z
