@@ -3,10 +3,10 @@
 module.exports = {
   url: 'https://zsms.netlify.com',
   pathPrefix: '/',
-  title: 'Blog by Hee Zhong',
+  title: 'Blog by Travis Zhong',
   subtitle: 'Build web apps with love',
-  copyright: '© Hee All rights reserved.',
-  disqusShortname: 'blog-by-Hee-zhong',
+  copyright: '© Travis All rights reserved.',
+  disqusShortname: 'blog-by-Travis-zhong',
   postsPerPage: 6,
   googleAnalyticsId: '',
   useKatex: false,
@@ -25,19 +25,19 @@ module.exports = {
     }
   ],
   author: {
-    name: 'Hee Zhong',
+    name: 'Travis Zhong',
     photo: '/photo.jpg',
     bio: 'Java is to JavaScript as ham is to hamster :)',
     contacts: {
       email: 'i@zsms.me',
       facebook: '',
-      telegram: 'heeeeeeeeeeeeeeeeeeeeeeeee',
-      twitter: 'heeweez',
+      telegram: '',
+      twitter: '',
       github: 'heemoe',
       rss: '',
       vkontakte: '',
       linkedin: '',
-      instagram: 'heeig',
+      instagram: '',
       line: '',
       gitlab: '',
       weibo: ''
