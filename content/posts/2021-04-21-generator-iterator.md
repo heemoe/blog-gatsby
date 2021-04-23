@@ -1,7 +1,7 @@
 ---
 template: post
 title: Generator & Iterator
-slug: generator-iterator-things
+slug: /posts/generator-iterator-things
 draft: true
 date: 2021-04-21T15:20:21.242Z
 description: ' '
