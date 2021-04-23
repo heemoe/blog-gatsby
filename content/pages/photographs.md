@@ -1,7 +1,7 @@
 ---
 template: page
 title: Photographs
-slug: photography
+slug: /pages/photography
 draft: true
 ---
 I'm a street photographer also, check my shots click link below!
