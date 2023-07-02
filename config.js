@@ -25,7 +25,7 @@ module.exports = {
     }
   ],
   author: {
-    name: 'Travis Zhong',
+    name: 'Zhong',
     photo: '/photo.jpg',
     bio: 'Java is to JavaScript as ham is to hamster :)',
     contacts: {
