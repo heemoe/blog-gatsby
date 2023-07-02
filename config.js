@@ -3,9 +3,9 @@
 module.exports = {
   url: 'https://zsms.netlify.com',
   pathPrefix: '/',
-  title: 'Blog by Travis Zhong',
+  title: 'Blog by Zhong',
   subtitle: 'Build web apps with love',
-  copyright: '© Travis All rights reserved.',
+  copyright: '© Zhong All rights reserved.',
   disqusShortname: 'blog-by-Travis-zhong',
   postsPerPage: 6,
   googleAnalyticsId: '',
