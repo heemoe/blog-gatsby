@@ -2,17 +2,17 @@
 
 ## 1. 项目定位
 
-本仓库是一个基于 `gatsby-starter-lumen` 演进而来的 Gatsby 博客项目。
+本仓库当前是一个基于 `Astro` 的个人博客项目，部署目标是 `Cloudflare Pages`。
 
 主要工作对象如下：
 
-- 站点内容：`content/posts/`、`content/pages/`
-- 站点配置：`config.js`、`gatsby-config.js`
-- 页面模板与组件：`src/templates/`、`src/components/`
-- Gatsby 构建逻辑：`gatsby/`、`gatsby-node.js`
-- 静态资源与 CMS 配置：`static/`、`static/admin/config.yml`
+- 站点内容：`src/content/blog/`、`src/content/pages/`
+- 站点配置：`src/site.config.ts`、`astro.config.mjs`
+- 页面与布局：`src/pages/`、`src/layouts/`、`src/components/`
+- 内容读取逻辑：`src/lib/content.ts`、`src/content/config.ts`
+- 静态资源：`public/`
 
-默认把它视为“内容 + 前端主题 + 静态站点构建配置”仓库，而不是一个正在快速升级依赖的现代前端基建仓库。
+默认把它视为“内容 + 主题样式 + 静态站点构建配置”仓库，而不是一个以依赖升级为核心的前端基建仓库。
 
 ## 2. 默认阅读顺序
 
@@ -21,7 +21,8 @@
 - `README.md`
 - `AGENTS.md`
 - `package.json`
-- `config.js`
+- `src/site.config.ts`
+- 如任务较大，再补读 `docs/plans/PLANS.md`
 
 然后按任务类型补读相关文件。
 
@@ -31,40 +32,40 @@
 
 必须先读：
 
-- `content/posts/*` 或 `content/pages/*` 中的目标文件
-- `config.js`
+- `src/content/blog/*` 或 `src/content/pages/*` 中的目标文件
+- `src/site.config.ts`
 
-如果任务涉及文章列表、标签页、归档页如何展示，再补读：
+如果任务涉及首页卡片、RSS、SEO 摘要或文章 URL，再补读：
 
-- `src/templates/`
-- `gatsby/create-pages.js`
+- `src/lib/content.ts`
+- 对应的 `src/pages/*.astro`
 
 ### 3.2 页面样式、组件、模板调整
 
 必须先读：
 
-- 目标组件或模板文件
-- 对应的 `*.module.scss`
+- 目标页面、组件或布局文件
+- `src/styles/global.css`
 
-如改动影响页面生成逻辑，再补读：
+如改动影响内容渲染或路由，再补读：
 
-- `gatsby/create-pages.js`
-- `gatsby/pagination/`
+- `src/lib/content.ts`
+- `src/content/config.ts`
+- 对应的 `src/pages/*.astro`
 
 ### 3.3 构建、插件、部署、CMS 配置
 
 必须先读：
 
 - `package.json`
-- `gatsby-config.js`
-- `netlify.toml`
+- `astro.config.mjs`
+- `src/site.config.ts`
 
 按需要补读：
 
-- `static/admin/config.yml`
-- `Dockerfile.development`
-- `Dockerfile.production`
-- `.circleci/` 或 `.github/`
+- `README.md`
+- `docs/plans/2026-04-22-gatsby-to-astro-cloudflare.md`
+- `.github/`
 
 ## 4. 开工前必须做的事
 
@@ -83,22 +84,22 @@
 ## 5. 变更原则
 
 - 优先做最小必要改动，不把初始化任务扩展成依赖升级或结构重构。
-- 不主动统一 `yarn.lock` 和 `package-lock.json`，除非用户明确要求处理包管理器策略。
-- 不主动升级 Gatsby、React、`node-sass`、Flow、Jest 等旧栈依赖；这类工作单独作为升级任务处理。
+- 不主动扩展为 Astro、TypeScript 或部署链路升级，除非用户明确要求。
 - 不提交无关格式化、批量重命名或目录重排。
 - 修改文章或页面内容时，只动目标内容和必要的渲染链路。
 - 修改构建或部署配置时，要明确说明影响范围。
+- `public/` 下的静态资源默认应提交到仓库，不要再把它当构建产物目录处理。
+- 如果改动会影响已发布 URL、RSS 或静态资源路径，要显式说明是否允许破坏旧链接。
 
 ## 6. 验证规则
 
 默认优先做和改动范围匹配的验证，而不是无差别全量跑一遍：
 
-- JS 逻辑改动：`npm run lint:js`
-- SCSS 改动：`npm run lint:scss`
-- 组件或模板改动：`npm test`
-- 构建链路或 Gatsby 配置改动：`npm run build`
+- 内容 schema、页面逻辑、组件或布局改动：`npm run check`
+- 构建链路、部署配置、路由或静态资源改动：`npm run build`
+- 跨内容与页面渲染的改动：`npm run check` + `npm run build`
 
-如果本地环境、依赖安装状态、旧版本工具链或沙箱限制导致无法验证，必须明确说清楚阻塞点，不能假装已验证。
+如果本地环境、依赖安装状态或 Node/Astro 版本差异导致无法验证，必须明确说清楚阻塞点，不能假装已验证。
 
 ## 7. 长任务计划
 
@@ -124,6 +125,8 @@
 
 ## 9. 仓库级注意事项
 
-- 当前仓库同时存在 `yarn.lock` 和 `package-lock.json`，处理依赖前先确认本次任务是否真的需要改锁文件。
-- 这是一个较老的 Gatsby 技术栈，运行环境兼容性问题要优先归因为“版本/工具链差异”，不要直接把问题当成业务代码错误。
-- 初始化 Codex 协作环境时，优先补齐说明文档与计划规范，不默认引入额外工程化配置。
+- 当前有效内容目录是 `src/content/`，不是旧的 `content/`。
+- 当前有效静态资源目录是 `public/`，站点构建产物目录是 `dist/`，两者不要混淆。
+- 当前有效站点配置入口是 `src/site.config.ts` 与 `astro.config.mjs`，不要再按 Gatsby 文件名找配置。
+- 仓库已经明确移除 CMS、标签页、分类页、归档页、评论和旧 Gatsby 链路；除非用户明确要求，不要默认恢复这些能力。
+- 如果任务涉及 Cloudflare Pages、域名或默认分支切换，先区分哪些是仓库内改动，哪些是需要人工在平台侧完成的步骤。
