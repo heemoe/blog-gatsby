@@ -1,0 +1,20 @@
+---
+import { siteConfig } from '../site.config';
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__eyebrow">Astro Edition</span>
+      <span class="site-header__title">{siteConfig.title}</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {
+        siteConfig.navigation.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,23 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../site.config';
+
+const about = await getEntry('pages', 'about');
+
+if (!about) {
+  throw new Error('About page content is missing.');
+}
+
+const { Content } = await about.render();
+---
+
+<BaseLayout
+  title={`About - ${siteConfig.title}`}
+  description={about.data.description ?? siteConfig.description}
+  pageTitle={about.data.title}
+>
+  <article class="prose-card">
+    <Content />
+  </article>
+</BaseLayout>

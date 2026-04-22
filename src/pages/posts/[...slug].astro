@@ -1,0 +1,39 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { siteConfig } from '../../site.config';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const publishedAt = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={`${post.data.title} - ${siteConfig.title}`}
+  description={post.data.description || siteConfig.description}
+  image={post.data.heroImage}
+  pageTitle={post.data.title}
+>
+  <article class="prose-card">
+    <p class="prose-card__meta">{publishedAt}</p>
+    <Content />
+  </article>
+</BaseLayout>

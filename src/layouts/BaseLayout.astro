@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import { siteConfig } from '../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  pageTitle?: string;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  image = siteConfig.author.photo,
+  pageTitle,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, siteConfig.site).toString();
+const socialImage = new URL(image, siteConfig.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+  </head>
+  <body>
+    <SiteHeader />
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // The previous Gatsby site shipped an offline worker. Unregister it on first load so
+          // the rebuilt site is not served stale cached assets.
+          navigator.serviceWorker.getRegistrations().then((registrations) => {
+            registrations.forEach((registration) => registration.unregister());
+          });
+        });
+      }
+    </script>
+    <main class="page-shell">
+      <section class="page-shell__hero">
+        <p class="page-shell__subtitle">{siteConfig.subtitle}</p>
+        {pageTitle && <h1>{pageTitle}</h1>}
+      </section>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>{siteConfig.author.name}</p>
+      <p>
+        <a href={siteConfig.author.github}>GitHub</a>
+        <span aria-hidden="true"> / </span>
+        <a href={`mailto:${siteConfig.author.email}`}>Email</a>
+      </p>
+    </footer>
+  </body>
+</html>

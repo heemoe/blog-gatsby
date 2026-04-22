@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../site.config';
+---
+
+<BaseLayout
+  title={`Not found - ${siteConfig.title}`}
+  description="The page you requested no longer exists on the rebuilt site."
+  pageTitle="Page not found"
+>
+  <section class="prose-card">
+    <p>
+      This route does not exist on the new Astro site. If you followed an old bookmark, try heading
+      back to the homepage.
+    </p>
+    <p><a href="/">Return home</a></p>
+  </section>
+</BaseLayout>

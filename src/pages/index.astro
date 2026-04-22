@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPublishedPosts } from '../lib/content';
+import { siteConfig } from '../site.config';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout
+  title={siteConfig.title}
+  description={siteConfig.description}
+  pageTitle="Latest writing"
+>
+  <section class="intro-card">
+    <p>
+      Rebuilt from an aging Gatsby stack into a quieter Astro setup. This site now keeps only the
+      essentials: writing, RSS, and a simple publishing workflow through Git.
+    </p>
+  </section>
+
+  <section class="post-list" aria-label="Latest posts">
+    {posts.map((post) => <PostCard post={post} />)}
+  </section>
+</BaseLayout>
