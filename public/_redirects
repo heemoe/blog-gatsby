@@ -1,0 +1,7 @@
+/pages/about /about/ 301
+/pages/about/ /about/ 301
+/pages/archives https://github.com/heemoe/blog_archive 301
+/pages/archives/ https://github.com/heemoe/blog_archive 301
+/posts/hello-world /posts/hello-world/ 301
+/posts/two-ways-add-shared-common-css-in-vue /posts/two-ways-add-shared-common-css-in-vue/ 301
+/posts/hide-navigationBar-bottom-line/ /posts/hide-navigationbar-bottom-line/ 301
