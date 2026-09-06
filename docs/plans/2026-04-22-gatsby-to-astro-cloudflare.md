@@ -49,7 +49,7 @@
 - Scope: correct canonical, social images, RSS, sitemap, and robots URLs; share the site origin through `src/site.config.ts`; update publishing documentation. Do not change DNS, article slugs, or dependencies.
 - Implementation: update Astro's site configuration and generate `robots.txt` from that configuration, then check all built page/XML URLs and local assets.
 - Release: publish a short-lived branch and PR, verify the Cloudflare Preview against this exact commit, then release through the existing `main` deployment workflow.
-- Verification: `npm run check`, `npm run build`, and a repeatable built-output URL check. Production verification remains pending until the corrected commit is deployed.
+- Verification: `npm run check`, `npm run build`, and `npm run check:urls` pass locally and against the implementation's Cloudflare Preview. Production verification remains pending until the PR is merged and deployed.
 - Context risk is low for this focused follow-up. Existing migration phases are not being restarted.
 
 ## Status Log
@@ -60,3 +60,4 @@
 - `2026-04-22`: Phase 4 remains manual. Branch rename, Cloudflare dashboard setup, DNS cutover, and Netlify shutdown still need to be performed outside the repo.
 - `2026-09-06`: Supersedes the previous all-manual Phase 4 status: `main` is the GitHub default branch; Cloudflare production deployment `f5e99c3b-01e0-4f20-9fc3-b8c51898b350` for `14485be` succeeded; `blog.zsms.me` is active. Domain metadata still points to the apex and is being corrected. Full code review and Netlify account-side retirement remain unverified.
 - `2026-09-06`: Domain fix implemented on `codex/fix-blog-domain`. Local `npm run check` reports no diagnostics; `npm run build` and `npm run check:urls` pass for 10 HTML pages, RSS, two sitemaps, robots, and two social images. The same URL check against the existing production deployment fails on the old apex canonical as expected. PR/Preview verification and production release are pending; no DNS or Netlify changes were made.
+- `2026-09-06`: [PR #56](https://github.com/heemoe/blog-gatsby/pull/56) is open and targets `main`. Implementation commit `4c5c43f` passed the Cloudflare Pages check; [its exact Preview](https://522daf4a.blog-gatsby-92w.pages.dev) passed `npm run check:urls` for all 10 HTML pages, RSS, both sitemaps, robots, and social images. The PR has not been merged and production still serves the previous version. Resume by verifying checks for the latest PR head, merging through the PR workflow, and running `npm run check:urls -- https://blog.zsms.me` after production deployment succeeds.
