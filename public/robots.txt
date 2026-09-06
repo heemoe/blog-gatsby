@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://zsms.me/sitemap-index.xml
