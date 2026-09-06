@@ -1,5 +1,5 @@
 export const siteConfig = {
-  site: 'https://zsms.me',
+  site: 'https://blog.zsms.me',
   title: 'Blog by Zhong',
   subtitle: 'Build web apps with love',
   description:

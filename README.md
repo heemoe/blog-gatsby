@@ -47,6 +47,12 @@ npm run check
 npm run build
 ```
 
+构建后核对 canonical、分享图片、RSS、sitemap 与 robots 的域名：
+
+```bash
+npm run check:urls
+```
+
 产物输出目录固定为：
 
 ```bash
@@ -60,15 +66,15 @@ dist/
 - `src/content/pages/`
   - 当前仅保留静态页面内容，例如 About。
 - `src/pages/`
-  - Astro 路由页面：首页、文章详情、About、404、RSS。
+  - Astro 路由页面：首页、文章详情、About、404、RSS、robots.txt。
 - `src/layouts/`
   - 页面布局。
 - `src/components/`
   - 轻量 Astro 组件。
 - `src/site.config.ts`
-  - 站点标题、作者、导航、canonical 域名、Cloudflare Pages 参数。
+  - 站点标题、作者、导航、canonical 域名的唯一配置源；Cloudflare Pages 参数供人工核对，不会自动修改平台设置。
 - `public/`
-  - 静态资源、`_redirects`、`robots.txt`。
+  - 静态资源和 `_redirects`；`robots.txt` 由 Astro 根据站点配置生成。
 
 ## 内容模型
 
@@ -102,7 +108,9 @@ heroImage: /media/example-cover.jpg
 1. 从 `main` 拉出一个短分支，例如：
 
 ```bash
-git checkout -b post/my-new-post
+git switch main
+git pull --ff-only origin main
+git switch -c post/my-new-post
 ```
 
 2. 在 `src/content/blog/` 新建或修改 Markdown 文件。
@@ -113,6 +121,7 @@ git checkout -b post/my-new-post
 npm run dev
 npm run check
 npm run build
+npm run check:urls
 ```
 
 5. 推送分支并创建 PR。
@@ -132,33 +141,41 @@ npm run build
 
 ## Cloudflare Pages 配置
 
-仓库内唯一有效的部署参数是：
+当前部署参数（2026-09-06 已通过 Cloudflare API 核对）：
 
 - 生产分支：`main`
 - 构建命令：`npm run build`
 - 输出目录：`dist`
-- 目标域名：`https://zsms.me`
+- 项目名称：`blog-gatsby`
+- 生产域名：`https://blog.zsms.me`
+- Pages 默认域名：`https://blog-gatsby-92w.pages.dev`
+- GitHub 集成：`heemoe/blog-gatsby`；生产自动部署和分支预览均已开启
+
+`https://zsms.me` 是独立的个人主页，博客上线不应修改它的 DNS 或重定向。博客的 canonical、分享图片、RSS、sitemap 和 robots 均使用 `src/site.config.ts` 中的 `site`，预览构建也保持生产域名。
+
+检查预览或生产环境的链接（先在本地完成构建；预览 URL 从对应 PR / Cloudflare 部署记录获取）：
+
+```bash
+npm run check:urls -- https://blog.zsms.me
+```
 
 推荐上线顺序：
 
 1. 先让仓库在 Cloudflare Pages 上跑通 `*.pages.dev`
-2. 再绑定 `zsms.me`
+2. 再绑定 `blog.zsms.me`（当前已 active，无需重新绑定）
 3. 确认生产流量完全由 Cloudflare Pages 提供后，再处理 Netlify 退场
 
-## 需要人工完成的事项
+## 上线收尾状态
 
-这些步骤不能由仓库代码代替：
+GitHub 默认分支 `main`、Cloudflare Pages 项目连接和 `blog.zsms.me` 域名验证均已完成。修复发布仍按分支、PR、预览、合并的顺序进行，合并后检查生产环境生成的链接。
 
-1. 把默认生产分支从 `master` 改成 `main`
-2. 在 Cloudflare Pages 连接 GitHub 仓库，并把生产分支设为 `main`
-3. 验证 `*.pages.dev` 预发布
-4. 绑定 `zsms.me`
-5. 如果 Cloudflare 没有自动处理 apex 域名记录，手工确认 DNS
-6. Cloudflare 生产验证通过后，再去 Netlify：
-   - 移除自定义域名绑定
-   - 关闭自动部署
-   - 停用旧 Identity / Git Gateway
-   - 观察稳定后归档或删除旧站点
+旧 `zsms.netlify.app` 当前返回 404，不能据此认定 Netlify 后台已完成清理。剩余平台侧核对项：
+
+- 确认旧 Netlify 项目的自定义域名已解绑。
+- 确认自动部署已关闭，旧 Identity / Git Gateway 已停用（如曾启用）。
+- 确认没有仍需保留的数据，再决定是否删除旧站点；不要只凭 404 删除账号或其他站点。
+
+迁移进度和后续验证记录见 `docs/plans/2026-04-22-gatsby-to-astro-cloudflare.md`。
 
 ## 旧 Netlify 处理原则
 
