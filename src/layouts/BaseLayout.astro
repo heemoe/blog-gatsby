@@ -1,20 +1,19 @@
 ---
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
+import themeScript from '../scripts/theme.js?raw';
 import { siteConfig } from '../site.config';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
-  pageTitle?: string;
 }
 
 const {
   title = siteConfig.title,
   description = siteConfig.description,
   image = siteConfig.author.photo,
-  pageTitle,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, siteConfig.site).toString();
@@ -28,6 +27,10 @@ const socialImage = new URL(image, siteConfig.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f5f0" />
+    <script is:inline set:html={themeScript} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href="/rss.xml" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteConfig.title} />
@@ -41,6 +44,7 @@ const socialImage = new URL(image, siteConfig.site).toString();
     <meta name="twitter:image" content={socialImage} />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <SiteHeader />
     <script is:inline>
       if ('serviceWorker' in navigator) {
@@ -53,20 +57,27 @@ const socialImage = new URL(image, siteConfig.site).toString();
         });
       }
     </script>
-    <main class="page-shell">
-      <section class="page-shell__hero">
-        <p class="page-shell__subtitle">{siteConfig.subtitle}</p>
-        {pageTitle && <h1>{pageTitle}</h1>}
-      </section>
+    <main class="page-shell" id="main-content" tabindex="-1">
       <slot />
     </main>
     <footer class="site-footer">
-      <p>{siteConfig.author.name}</p>
-      <p>
-        <a href={siteConfig.author.github}>GitHub</a>
-        <span aria-hidden="true"> / </span>
-        <a href={`mailto:${siteConfig.author.email}`}>Email</a>
-      </p>
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div>
+            <a class="wordmark" href="/" aria-label={`${siteConfig.title} — home`}>zhong<span>.</span></a>
+            <p class="footer-note">A few things learned along the way.</p>
+          </div>
+          <nav class="footer-links" aria-label="Elsewhere">
+            <a href={siteConfig.author.github}>GitHub <span aria-hidden="true">↗</span></a>
+            <a href={`mailto:${siteConfig.author.email}`}>Email <span aria-hidden="true">↗</span></a>
+            <a href="/rss.xml">RSS <span aria-hidden="true">↗</span></a>
+          </nav>
+        </div>
+        <div class="footer-bottom eyebrow">
+          <p>© {new Date().getUTCFullYear()} {siteConfig.author.name}</p>
+          <a href="#top">Back to top ↑</a>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

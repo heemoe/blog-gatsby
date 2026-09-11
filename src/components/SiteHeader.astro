@@ -1,20 +1,29 @@
 ---
 import { siteConfig } from '../site.config';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname;
 ---
 
-<header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="/">
-      <span class="site-header__eyebrow">Astro Edition</span>
-      <span class="site-header__title">{siteConfig.title}</span>
-    </a>
-
-    <nav class="site-header__nav" aria-label="Primary">
-      {
-        siteConfig.navigation.map((item) => (
-          <a href={item.href}>{item.label}</a>
-        ))
-      }
-    </nav>
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <div class="header-brand">
+      <a class="wordmark" href="/" aria-label={`${siteConfig.title} — home`}>zhong<span>.</span></a>
+      <span class="header-caption eyebrow">A personal notebook</span>
+    </div>
+    <div class="header-actions">
+      <nav class="site-nav" aria-label="Primary">
+        {siteConfig.navigation.map((item) => (
+          <a href={item.href} aria-current={path === item.href ? 'page' : item.href === '/' && path.startsWith('/posts/') ? 'location' : undefined}>
+            {item.href === '/' ? 'Writing' : item.label}
+          </a>
+        ))}
+        <a class="nav-rss" href="/rss.xml">
+          RSS
+          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none"><path d="M3 13 13 3M3 3h10v10" stroke="currentColor" stroke-width="1.4" /></svg>
+        </a>
+      </nav>
+      <ThemeToggle />
+    </div>
   </div>
 </header>

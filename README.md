@@ -185,6 +185,16 @@ GitHub 默认分支 `main`、Cloudflare Pages 项目连接和 `blog.zsms.me` 域
 
 ## 当前站点范围
 
+### 外观与响应式
+
+- 保留黑红排版；日间使用暖白底，夜间使用炭黑底，正文和代码块同步适配。
+- 首次访问跟随系统外观。导航右侧的太阳/月亮按钮可切换模式，选择保存在当前浏览器，刷新及跨页继续生效。
+- 未手动选择时跟随系统变化；禁用 JavaScript 时也会按系统外观显示，并隐藏切换按钮。
+- 手机导航保留 Writing、About 与主题按钮，RSS 仍可从页脚访问；平板文章改为单栏，代码和表格在自身区域内滚动。
+- 主题逻辑回归检查：`npm run test:theme`。视觉规范见 `src/styles/global.css`、`src/styles/reading.css`；配色代码块配置在 `astro.config.mjs`。
+
+### 页面与功能
+
 v1 只保留：
 
 - 首页

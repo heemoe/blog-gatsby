@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteConfig } from '../../site.config';
+import '../../styles/reading.css';
 
 const about = await getEntry('pages', 'about');
 
@@ -15,9 +16,37 @@ const { Content } = await about.render();
 <BaseLayout
   title={`About - ${siteConfig.title}`}
   description={about.data.description ?? siteConfig.description}
-  pageTitle={about.data.title}
 >
-  <article class="prose-card">
-    <Content />
+  <article class="about-page">
+    <header class="about-heading">
+      <p class="eyebrow">The person behind the notes</p>
+      <h1>{siteConfig.author.name}<span aria-hidden="true">.</span></h1>
+    </header>
+
+    <div class="about-grid">
+      <figure class="about-portrait">
+        <img
+          src={siteConfig.author.photo}
+          alt={`Portrait of ${siteConfig.author.name}`}
+          width="1486"
+          height="1485"
+        />
+        <figcaption class="eyebrow">Web &amp; mobile developer</figcaption>
+      </figure>
+
+      <div class="about-copy">
+        <p class="about-bio">{siteConfig.author.bio}</p>
+        <section class="about-note" aria-labelledby="about-note-title">
+          <h2 class="eyebrow" id="about-note-title">{about.data.title}</h2>
+          <div class="reading-prose">
+            <Content />
+          </div>
+        </section>
+        <nav class="about-contact" aria-label="Connect with Zhong">
+          <a class="text-link" href={siteConfig.author.github}>GitHub <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href={`mailto:${siteConfig.author.email}`}>Email <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </div>
   </article>
 </BaseLayout>

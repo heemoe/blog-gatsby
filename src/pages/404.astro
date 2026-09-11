@@ -1,18 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../site.config';
+import '../styles/reading.css';
 ---
 
 <BaseLayout
   title={`Not found - ${siteConfig.title}`}
-  description="The page you requested no longer exists on the rebuilt site."
-  pageTitle="Page not found"
+  description="The page you requested could not be found."
 >
-  <section class="prose-card">
-    <p>
-      This route does not exist on the new Astro site. If you followed an old bookmark, try heading
-      back to the homepage.
-    </p>
-    <p><a href="/">Return home</a></p>
+  <section class="not-found" aria-labelledby="not-found-title">
+    <p class="eyebrow">A wrong turn</p>
+    <p class="not-found__number" aria-hidden="true">404<span>.</span></p>
+    <div class="not-found__copy">
+      <h1 id="not-found-title">Page not found.</h1>
+      <p>This page may have moved, or the link may be out of date.</p>
+      <a class="text-link" href="/">Back to writing <span aria-hidden="true">↗</span></a>
+    </div>
   </section>
 </BaseLayout>
