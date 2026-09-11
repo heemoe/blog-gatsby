@@ -1,25 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
+import PostEntry from '../components/PostEntry.astro';
 import { getPublishedPosts } from '../lib/content';
 import { siteConfig } from '../site.config';
 
 const posts = await getPublishedPosts();
+const latestYear = posts[0]?.data.date.getUTCFullYear();
+const firstYear = posts.at(-1)?.data.date.getUTCFullYear();
+const yearRange = firstYear === latestYear ? latestYear : `${firstYear} — ${latestYear}`;
 ---
 
-<BaseLayout
-  title={siteConfig.title}
-  description={siteConfig.description}
-  pageTitle="Latest writing"
->
-  <section class="intro-card">
-    <p>
-      Rebuilt from an aging Gatsby stack into a quieter Astro setup. This site now keeps only the
-      essentials: writing, RSS, and a simple publishing workflow through Git.
-    </p>
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  <section class="home-intro" aria-labelledby="intro-title">
+    <p class="eyebrow">Notes by {siteConfig.author.name}</p>
+    <div class="intro-grid">
+      <h1 class="intro-title" id="intro-title">A working<br /><span>notebook.</span></h1>
+      <div class="intro-aside">
+        <p>I build web and mobile applications. Here, I write down what I learn along the way.</p>
+        <a class="text-link" href="/about/">A little about me <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <p class="intro-footnote eyebrow">Web development / Mobile / Things learned</p>
   </section>
 
-  <section class="post-list" aria-label="Latest posts">
-    {posts.map((post) => <PostCard post={post} />)}
+  <section class="writing" id="writing" aria-labelledby="writing-title">
+    <div class="writing-heading">
+      <h2 id="writing-title">Writing<span>{String(posts.length).padStart(2, '0')}</span></h2>
+      <p class="eyebrow">{posts.length > 0 && <>{yearRange}<br /></>}Newest first</p>
+    </div>
+    {posts.length > 0 ? (
+      <ol class="entry-list">
+        {posts.map((post, index) => <PostEntry post={post} index={index} />)}
+      </ol>
+    ) : (
+      <p class="empty-writing">The notebook is open. The first entry is on its way.</p>
+    )}
   </section>
 </BaseLayout>

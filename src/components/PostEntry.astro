@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getExcerpt, getPostUrl } from '../lib/content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  index: number;
+}
+
+const { post, index } = Astro.props;
+const date = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric', month: 'short', day: '2-digit', timeZone: 'UTC',
+});
+---
+
+<li class:list={['entry', { 'entry--latest': index === 0 }]}>
+  <article>
+    <a class="entry-link" href={getPostUrl(post)} aria-labelledby={`entry-${index}`}>
+      <div class="entry-number" aria-hidden="true">
+        <span>{String(index + 1).padStart(2, '0')}{index === 0 && ' / LATEST'}</span>
+        <span class="entry-topic">{post.data.tags[0] ?? 'Notes'}</span>
+      </div>
+      <div class="entry-copy">
+        <h3 class="entry-title" id={`entry-${index}`}>{post.data.title}</h3>
+        <p class="entry-excerpt">{getExcerpt(post)}</p>
+        <div class="entry-meta">
+          <time datetime={post.data.date.toISOString()}>{date}</time>
+          {post.data.tags.length > 0 && <span>{post.data.tags.join(' / ')}</span>}
+        </div>
+      </div>
+      <svg class="entry-arrow" aria-hidden="true" viewBox="0 0 32 32" fill="none">
+        <path d="M7 25 25 7M7 7h18v18" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+    </a>
+  </article>
+</li>
